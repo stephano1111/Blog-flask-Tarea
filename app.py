@@ -1,9 +1,11 @@
-from flask import Flask, render_template#Servidor
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
+from flask import Flask, render_template #Servidor
+from flask_sqlalchemy import SQLAlchemy #BD
+from flask_marshmallow import Marshmallow #BD
+from datetime import datetime
 
 app = Flask(__name__)#Servidor
 
+#BD
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 db = SQLAlchemy(app)
 mm = Marshmallow(app)
@@ -21,6 +23,24 @@ class Post(db.Model):
     
     def __repr__(self):
         return f'<Post {self.title}>'
+
+db.create_all()#Crear la base de datos
+
+class PostSchema(mm.Schema):
+    class Meta:
+        fields = ['id', 'title', 'content', 'created']
+
+post_schema = PostSchema()
+posts_schema = PostSchema(many=True)
+
+posts = Post.query.all()
+print(posts)
+
+"""Crear un post: 
+my_post = Post(title='Corregir la fecha', content='Vamos a crear un nuevo post desde python para saber como se ve fecha y hora', created=datetime.now)
+db.session.add(my_post)
+db.session.commit()
+"""
 
 #Servidor
 @app.route('/')
