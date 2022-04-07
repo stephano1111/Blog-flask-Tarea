@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('home/index.html')
 
 @app.route('/enter')
 def enter_blog():
@@ -12,8 +12,8 @@ def enter_blog():
 
 @app.route('/register')
 def register_blog():
-    return render_template('register.html')
+    return render_template('register-sesion/register.html')
 
 @app.route('/sesion')
 def sesion_blog():
-    return render_template('sesion.html')
+    return render_template('register-sesion/sesion.html')
